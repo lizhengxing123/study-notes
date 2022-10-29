@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-10-17 20:46:18
- * @LastEditTime: 2022-10-26 20:03:50
+ * @LastEditTime: 2022-10-28 19:16:30
  */
 const ethers = require("ethers");
 const fs = require("fs-extra");
@@ -10,11 +10,13 @@ const fs = require("fs-extra");
 function base() {
   // ganache rpc地址
   const provider = new ethers.providers.JsonRpcProvider(
-    "HTTP://127.0.0.1:7545"
+    // "HTTP://127.0.0.1:7545"
+    "https://eth-goerli.g.alchemy.com/v2/G7eXWjLI0AR4e4OnEzE27jE_z9hjHhhG"
   );
   // ganache 一个账户的私钥
   const wallet = new ethers.Wallet(
-    "93c26610088920b548367ca06b638b7ad07be05b8393eee2836c9f43a5893db3",
+    // "93c26610088920b548367ca06b638b7ad07be05b8393eee2836c9f43a5893db3",
+    "7368d58b5ecc89f02ce5b2a21bc52b5dacb05e1a213cb7aadd478814d051f87e",
     provider
   );
   // 编译后的abi文件
@@ -71,54 +73,10 @@ async function deployWithTX() {
   await sentResponse.wait(1);
   console.log("sentResponse: ", sentResponse);
 }
-async function myProvider() {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "HTTP://127.0.0.1:7545"
-  );
-  // console.log("blockNumber: ", provider.blockNumber);
-  // console.log("polling: ", provider.polling);
-  // console.log("pollingInterval: ", provider.pollingInterval);
-  // console.log("connection: ", provider.connection);
-  // console.log("path: ", provider.path);
-  // console.log("apiAccessToken: ", provider.apiAccessToken);
-  const defaultProvider = new ethers.providers.EtherscanProvider("goerli");
-  // const network = await defaultProvider.getNetwork();
-  // console.log("network: ", network);
-  // const balance = await provider.getBalance(
-  //   "0xd840156c87BCC544706df3BCb1e1731e72F9D464"
-  // );
-  // console.log("balance: ", ethers.utils.formatEther(balance));
-  // const count = await provider.getTransactionCount(
-  //   "0xd840156c87BCC544706df3BCb1e1731e72F9D464"
-  // );
-  // console.log("count: ", count);
-  // const provider = ethers.getDefaultProvider("ropsten");
-  // console.log(
-  //   "getCode: ",
-  //   await provider.getCode("0xd840156c87BCC544706df3BCb1e1731e72F9D464")
-  // );
-  // console.log(
-  //   "getStorageAt: ",
-  //   await provider.getStorageAt("0xd840156c87BCC544706df3BCb1e1731e72F9D464", 0)
-  // );
-  const accounts = await provider.listAccounts();
-  const signer = await provider.getSigner(accounts[0]);
-  console.log("signer.getAddress: ", await signer.getAddress());
-  console.log(
-    "signer.getTransactionCount: ",
-    await signer.getTransactionCount()
-  );
-  console.log(
-    "signer.getBalance: ",
-    ethers.utils.formatEther(await signer.getBalance())
-  );
-  console.log("signer.signMessage: ", provider.signMessage("123"));
-}
-
-myProvider();
-// main()
-//   .then(() => process.exit(0))
-//   .catch((error) => {
-//     console.log("error: ", error);
-//     process.exit(1);
-//   });
+// deployWithTX();
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.log("error: ", error);
+    process.exit(1);
+  });
