@@ -2,9 +2,9 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-10-28 15:39:34
- * @LastEditTime: 2022-10-28 19:04:48
+ * @LastEditTime: 2022-10-31 14:42:57
  */
-const fs = require("fs-extra");
+const fs = require("fs/promises");
 
 // 删除目录
 // fs.rmdir("./pic", (err) => {
@@ -17,25 +17,10 @@ const fs = require("fs-extra");
 // });
 
 // 递归调用删除目录
-const rmdir = (path = "./avatar") => {
-  try {
-    fs.readdir(path, (err, data) => {
-      if (data.length) {
-        data.forEach((item) => {
-          fs.stat(`${path}/${item}`, (e, d) => {
-            if (d.isFile()) {
-              fs.unlinkSync(`${path}/${item}`);
-            } else {
-              rmdir(`${path}/${item}`);
-            }
-          });
-        });
-        fs.rmdirSync(path);
-      } else {
-      }
-    });
-  } catch (error) {
-    console.log("error---: ", error);
-  }
-};
-rmdir();
+try {
+  fs.rm("./avatar", {
+    recursive: true,
+  });
+} catch (error) {
+  console.log("error---: ", error);
+}
