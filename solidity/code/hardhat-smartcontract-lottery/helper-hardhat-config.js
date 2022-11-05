@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-10-31 20:16:03
- * @LastEditTime: 2022-11-03 22:00:52
+ * @LastEditTime: 2022-11-04 22:03:18
  */
 
 const { ethers } = require("hardhat")
@@ -17,7 +17,7 @@ const networkConfig = {
         vrfCoordinatorV2: "0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e",
         entranceFee: ethers.utils.parseEther("0.01"),
         gasLane: "0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15",
-        subscriptionId: "0",
+        subscriptionId: "6029",
         callbackGasLimit: "500000",
         interval: "30",
     },

@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-11-02 21:33:09
- * @LastEditTime: 2022-11-03 20:48:56
+ * @LastEditTime: 2022-11-04 22:38:13
  */
 // 测试
 require("@nomiclabs/hardhat-waffle")
@@ -43,5 +43,9 @@ module.exports = {
         player: {
             default: 1,
         },
+    },
+    mocha: {
+        // 超时事件
+        timeout: 600000,
     },
 }

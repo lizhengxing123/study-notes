@@ -2,7 +2,7 @@
  * @Descripttion: 部署Raffle合约
  * @Author: lizhengxing
  * @Date: 2022-11-03 20:33:59
- * @LastEditTime: 2022-11-03 22:10:31
+ * @LastEditTime: 2022-11-04 22:04:46
  */
 
 const { developmentChainIds, networkConfig } = require("../helper-hardhat-config")
@@ -12,15 +12,15 @@ module.exports = async ({ deployments, getNamedAccounts, network, getChainId, et
     const VRF_SUB_FUND_AMOUNT = ethers.utils.parseEther("30")
     // deploy - 部署合约的方法
     // log - 日志打印
-    const { deploy, log, get } = deployments
+    const { deploy, log } = deployments
     // 部署账户
     const { deployer } = await getNamedAccounts()
     const chainId = await getChainId()
-    let vrfCoordinatorV2Address, subscriptionId
+    let vrfCoordinatorV2Mock, vrfCoordinatorV2Address, subscriptionId
     // 判断是否为开发环境
     if (developmentChainIds.includes(parseInt(chainId))) {
         // 开发环境 - 获取之前部署的 mock 地址
-        const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
+        vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
         vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address
         // 创建订阅id
         const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
@@ -50,11 +50,14 @@ module.exports = async ({ deployments, getNamedAccounts, network, getChainId, et
         args,
         waitConfirmations: network.config.blockConfirmations || 6,
     })
-
-    // 不是开发环境，进行验证
-    if (!developmentChainIds.includes(parseInt(chainId))) {
-        await verify(Raffle.address, args)
+    // 如果是开发环境，需要给mock协作合约添加消费者
+    if (developmentChainIds.includes(parseInt(chainId))) {
+        await vrfCoordinatorV2Mock.addConsumer(subscriptionId, Raffle.address)
     }
+    // 不是开发环境，进行验证
+    // if (!developmentChainIds.includes(parseInt(chainId))) {
+    //     await verify(Raffle.address, args)
+    // }
 
     log("----------------------------")
 }

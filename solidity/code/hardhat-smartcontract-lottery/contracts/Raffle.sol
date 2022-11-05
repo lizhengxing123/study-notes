@@ -93,9 +93,9 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         i_gasLane = gasLane;
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
+        i_interval = interval;
         s_raffleState = RaffleState.OPEN; // 相当于 RaffleState(0)
         s_lastTimeStamp = block.timestamp;
-        i_interval = interval;
     }
 
     // 加入抽奖 -- 公开的，可支付的
@@ -156,7 +156,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         }
         // 改变状态
         s_raffleState = RaffleState.CALCULATEING;
-        // 请求随机数
+        // 请求随机数 -- 这个函数调用也会触发事件
         uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
@@ -202,6 +202,16 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return i_entranceFee;
     }
 
+    // 获取时间间隔
+    function getInterval() public view returns (uint256) {
+        return i_interval;
+    }
+
+    // 获取协作合约
+    function getVrfCoordinator() public view returns (VRFCoordinatorV2Interface) {
+        return i_vrfCoordinator;
+    }
+
     // 获取某个玩家
     function getPlayer(uint256 index) public view returns (address payable) {
         return s_players[index];
@@ -213,7 +223,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     }
 
     // 获取最近赢家
-    function getPlayer() public view returns (address payable) {
+    function getRecentWinner() public view returns (address payable) {
         return s_recentWinner;
     }
 
