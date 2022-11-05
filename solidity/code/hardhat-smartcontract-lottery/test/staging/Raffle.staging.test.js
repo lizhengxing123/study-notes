@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-11-04 18:32:33
- * @LastEditTime: 2022-11-04 21:53:55
+ * @LastEditTime: 2022-11-05 23:15:53
  */
 const { expect, assert } = require("chai")
 const { ethers, getNamedAccounts, network, deployments } = require("hardhat")
@@ -25,7 +25,7 @@ developmentChainIds.includes(parseInt(chainId))
 
           describe("fulfillRandomWords", () => {
               it("抽取获胜者，重置抽奖，并且发送金额", async () => {
-                  const accounts = ethers.getSigners()
+                  const accounts = await ethers.getSigners()
                   const startingTimeStamp = await raffle.getLatestTimestamp()
                   // 需要等待拿到随机数
                   await new Promise(async (resolve, reject) => {
@@ -39,7 +39,7 @@ developmentChainIds.includes(parseInt(chainId))
                               const winnerEndingBalance = await accounts[0].getBalance()
                               const endingTimeStamp = await raffle.getLatestTimestamp()
 
-                              await expect(await raffle.getPlayer(0)).to.be.reverted
+                              await expect(raffle.getPlayer(0)).to.be.reverted
                               assert.equal(recentWinner.toString(), accounts[0].address)
                               assert.equal(parseInt(raffleState), 0)
                               assert.equal(
