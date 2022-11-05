@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-11-02 21:33:09
- * @LastEditTime: 2022-11-04 22:38:13
+ * @LastEditTime: 2022-11-05 19:14:36
  */
 // 测试
 require("@nomiclabs/hardhat-waffle")
@@ -26,6 +26,10 @@ module.exports = {
     defaultNetwork: "hardhat",
     networks: {
         hardhat: {
+            chainId: 31337,
+            blockConfirmations: 1,
+        },
+        localhost: {
             chainId: 31337,
             blockConfirmations: 1,
         },
