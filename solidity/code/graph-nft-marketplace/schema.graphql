@@ -1,0 +1,37 @@
+# 定义 ActiveItem 实体类型 - 
+# '!' 表示必须存在
+type ActiveItem @entity {
+  id: ID! # 必须有一个id，类型为ID
+  buyer: Bytes! # 买家 address，如果没有，就是 0x0000....
+  seller: Bytes! # 卖家 address，如果没有，就是 0x0000....
+  nftAddress: Bytes! # NFT address
+  tokenId: BigInt! # NFT tokenId
+  price: BigInt! # NFT 价格，可以为空，不是必须的
+}
+
+# 定义 ItemListed 实体类型 - 已经上架的 NFT
+type ItemListed @entity {
+  id: ID!
+  seller: Bytes!
+  nftAddress: Bytes!
+  tokenId: BigInt!
+  price: BigInt!
+}
+
+# 定义 ItemCanceled 实体类型 - 已经下架的 NFT
+type ItemCanceled @entity {
+  id: ID!
+  seller: Bytes!
+  nftAddress: Bytes!
+  tokenId: BigInt!
+}
+
+# 定义 ItemBought 实体类型 - 已经购买的 NFT
+type ItemBought @entity {
+  id: ID!
+  buyer: Bytes!
+  nftAddress: Bytes!
+  tokenId: BigInt!
+  nftPrice: BigInt!
+  transactionPrice: BigInt! # 成交价
+}

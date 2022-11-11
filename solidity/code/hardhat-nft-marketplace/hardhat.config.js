@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-11-02 21:33:09
- * @LastEditTime: 2022-11-07 15:27:17
+ * @LastEditTime: 2022-11-10 17:01:37
  */
 // 测试
 require("@nomiclabs/hardhat-waffle")
@@ -72,5 +72,12 @@ module.exports = {
     mocha: {
         // 超时事件
         timeout: 600000,
+    },
+    // 用于etherscan合约验证
+    etherscan: {
+        apiKey: {
+            goerli: ETHERSCAN_API_KEY,
+        },
+        customChains: [],
     },
 }

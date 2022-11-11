@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: lizhengxing
  * @Date: 2022-11-09 17:36:28
- * @LastEditTime: 2022-11-09 19:35:39
+ * @LastEditTime: 2022-11-10 21:18:59
  */
 const { ethers } = require("hardhat")
 async function mintAndList() {
@@ -11,20 +11,20 @@ async function mintAndList() {
 
     console.log("Minting ...")
     const mintTx = await basicNft.mintNft()
-    const mintTxReceipt = await mintTx.wait(1)
+    const mintTxReceipt = await mintTx.wait(6)
     const tokenId = mintTxReceipt.events[1].args.tokenId
 
     console.log("Approving ...")
     const approveTx = await basicNft.approve(nftMarketplace.address, tokenId)
-    await approveTx.wait(1)
+    await approveTx.wait(6)
 
     console.log("Listing ...")
     const listTx = await nftMarketplace.listItem(
         basicNft.address,
         tokenId,
-        ethers.utils.parseEther("0.1")
+        ethers.utils.parseEther("0.01")
     )
-    await listTx.wait(1)
+    await listTx.wait(6)
 
     console.log("Complete!")
 }

@@ -53,7 +53,7 @@ contract NftMarketplace {
         uint256 price
     );
     // 购买 NFT
-    event itemBought(
+    event ItemBought(
         address indexed buyer,
         address indexed nftAddress,
         uint256 indexed tokenId,
@@ -61,7 +61,7 @@ contract NftMarketplace {
         uint256 transactionPrice
     );
     // 下架 NFT
-    event itemCanceled(address indexed seller, address indexed nftAddress, uint256 indexed tokenId);
+    event ItemCanceled(address indexed seller, address indexed nftAddress, uint256 indexed tokenId);
 
     // NFT 没有添加到市场
     modifier notListed(address nftAddress, uint256 tokenId) {
@@ -158,7 +158,7 @@ contract NftMarketplace {
         // 转移 NFT - 可能会有重入攻击
         IERC721(nftAddress).safeTransferFrom(listing.seller, msg.sender, tokenId);
         // 触发事件
-        emit itemBought(msg.sender, nftAddress, tokenId, listing.price, msg.value);
+        emit ItemBought(msg.sender, nftAddress, tokenId, listing.price, msg.value);
     }
 
     /**
@@ -174,7 +174,7 @@ contract NftMarketplace {
         // 删除列表里的这个NFT
         delete (s_listings[nftAddress][tokenId]);
         // 触发事件
-        emit itemCanceled(msg.sender, nftAddress, tokenId);
+        emit ItemCanceled(msg.sender, nftAddress, tokenId);
     }
 
     /**
