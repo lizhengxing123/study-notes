@@ -1,0 +1,67 @@
+<!--
+ * @Descripttion: 
+ * @Author: lizhengxing
+ * @Date: 2022-11-15 09:42:35
+ * @LastEditTime: 2022-11-15 10:51:44
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <label for="username">用户名</label>
+        <input type="text" id="username" />
+    </div>
+    <div>
+        <label for="password">密码</label>
+        <input type="text" id="password" />
+    </div>
+    <div>
+        <button id="login">登录 - Get</button>
+        <button id="loginPost">登录 - Post</button>
+    </div>
+
+    <script>
+        const username = document.getElementById("username")
+        const password = document.getElementById("password")
+        const login = document.getElementById("login")
+        const loginPost = document.getElementById("loginPost")
+
+        login.onclick = async () => {
+            try {
+                const res = await fetch(`/api/login?username=${username.value}&password=${password.value}`)
+                const data = await res.json()
+                console.log('data-get: ', data);
+            } catch (error) {
+
+            }
+        }
+        loginPost.onclick = async () => {
+            try {
+                const res = await fetch(`/api/loginPost`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: username.value,
+                        password: password.value
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const data = await res.json()
+                console.log('data-post: ', data);
+            } catch (error) {
+
+            }
+        }
+    </script>
+</body>
+
+</html>
